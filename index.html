@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Casino SPA (Educational)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🎲</span>
+      <div>
+        <div class="brand-title">Demo Casino</div>
+        <div class="brand-subtitle">Educational SPA • Virtual credits only</div>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="balance-pill" title="Virtual Balance">
+        <span class="muted">Balance:</span>
+        <strong id="balanceDisplay">0</strong>
+        <span class="muted">credits</span>
+      </div>
+      <button id="btnResetAll" class="btn btn-ghost" type="button" title="Reset everything (balance, settings, stats)">
+        Reset All
+      </button>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Primary navigation">
+    <button class="nav-link is-active" data-route="home" type="button">Home</button>
+    <button class="nav-link" data-route="games" type="button">Games</button>
+    <button class="nav-link" data-route="simulation" type="button">Game Simulation</button>
+    <button class="nav-link" data-route="balance" type="button">Balance</button>
+    <button class="nav-link" data-route="profile" type="button">Profile</button>
+  </nav>
+
+  <main class="container">
+    <!-- 1) HOME -->
+    <section id="home" class="module is-visible" aria-labelledby="homeTitle">
+      <h1 id="homeTitle">Home</h1>
+
+      <div class="card">
+        <h2>Disclaimer</h2>
+        <p>
+          This is an <strong>educational demo</strong>. It uses <strong>virtual credits</strong> only.
+          There is <strong>no real money</strong>, <strong>no payments</strong>, and <strong>no real gambling</strong>.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Quick Overview</h2>
+          <ul class="list">
+            <li>Pick a demo game in <strong>Games</strong>.</li>
+            <li>Play it in <strong>Game Simulation</strong>.</li>
+            <li>Manage credits in <strong>Balance</strong>.</li>
+            <li>View stats & settings in <strong>Profile</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Your Current Balance</h2>
+          <p class="big-number">
+            <span id="homeBalance">0</span> credits
+          </p>
+          <p class="muted">
+            Tip: Use the Balance module to add or reset virtual credits.
+          </p>
+          <div class="row">
+            <button class="btn" data-goto="balance" type="button">Go to Balance</button>
+            <button class="btn btn-ghost" data-goto="games" type="button">Choose a Game</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2) GAMES -->
+    <section id="games" class="module" aria-labelledby="gamesTitle">
+      <h1 id="gamesTitle">Games</h1>
+
+      <div class="card">
+        <h2>Choose a Demo Game</h2>
+        <p class="muted">
+          Selecting a game updates the Game Simulation module. Your selection is saved in localStorage.
+        </p>
+
+        <div id="gamesList" class="games-list" aria-live="polite"></div>
+
+        <div class="row">
+          <div class="pill">
+            Selected: <strong id="selectedGameLabel">None</strong>
+          </div>
+          <button class="btn" data-goto="simulation" type="button">Go to Game Simulation</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) GAME SIMULATION -->
+    <section id="simulation" class="module" aria-labelledby="simTitle">
+      <h1 id="simTitle">Game Simulation</h1>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Current Game</h2>
+          <p class="muted">Pick a game in the Games module if none is selected.</p>
+
+          <div class="sim-game">
+            <div class="sim-game-name" id="simGameName">No game selected</div>
+            <div class="muted" id="simGameDesc">Go to Games and select a demo game.</div>
+          </div>
+
+          <hr class="sep" />
+
+          <h3>Bet</h3>
+          <div class="row">
+            <label class="label" for="betAmount">Bet amount</label>
+            <input id="betAmount" class="input" type="number" min="1" step="1" value="10" />
+            <button id="btnMaxBet" class="btn btn-ghost" type="button" title="Set bet to your full balance">
+              Max
+            </button>
+          </div>
+
+          <div class="row">
+            <button id="btnPlay" class="btn" type="button">Play</button>
+            <button id="btnQuickTopUp" class="btn btn-ghost" type="button" title="Add 100 credits quickly">
+              +100 credits
+            </button>
+          </div>
+
+          <p class="muted small">
+            Sound can be toggled in Profile settings.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>Result</h2>
+          <div id="resultBox" class="result-box" aria-live="polite">
+            <div class="result-title">Ready</div>
+            <div class="result-text muted">Press Play to simulate an outcome.</div>
+          </div>
+
+          <div class="card subtle">
+            <h3>Mini Rules (Demo)</h3>
+            <ul class="list small">
+              <li><strong>Slot Spin</strong>: Random win or lose. Occasional big win.</li>
+              <li><strong>Coin Flip</strong>: 50/50 chance to double the bet.</li>
+              <li><strong>Dice Roll</strong>: Roll 4+ wins; 6 pays more.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) BALANCE -->
+    <section id="balance" class="module" aria-labelledby="balanceTitle">
+      <h1 id="balanceTitle">Balance</h1>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Virtual Balance</h2>
+          <p class="big-number">
+            <span id="balancePageAmount">0</span> credits
+          </p>
+          <p class="muted">Stored in localStorage. Beginner-friendly controls below.</p>
+        </div>
+
+        <div class="card">
+          <h2>Manage Credits</h2>
+
+          <div class="row">
+            <label class="label" for="addAmount">Add credits</label>
+            <input id="addAmount" class="input" type="number" min="1" step="1" value="100" />
+            <button id="btnAddCredits" class="btn" type="button">Add</button>
+          </div>
+
+          <div class="row">
+            <button id="btnResetBalance" class="btn btn-danger" type="button">Reset Balance to 0</button>
+            <button class="btn btn-ghost" data-goto="simulation" type="button">Go Play</button>
+          </div>
+
+          <p class="muted small">
+            Reset Balance only clears credits. “Reset All” clears credits + settings + stats.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) PROFILE -->
+    <section id="profile" class="module" aria-labelledby="profileTitle">
+      <h1 id="profileTitle">Profile</h1>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>User Info</h2>
+
+          <div class="row">
+            <label class="label" for="username">Username</label>
+            <input id="username" class="input" type="text" placeholder="e.g., Student123" maxlength="20" />
+            <button id="btnSaveProfile" class="btn" type="button">Save</button>
+          </div>
+
+          <div class="card subtle">
+            <h3>Statistics</h3>
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-label">Plays</div>
+                <div id="statPlays" class="stat-value">0</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Wins</div>
+                <div id="statWins" class="stat-value">0</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Losses</div>
+                <div id="statLosses" class="stat-value">0</div>
+              </div>
+              <div class="stat">
+                <div class="stat-label">Net</div>
+                <div id="statNet" class="stat-value">0</div>
+              </div>
+            </div>
+            <p class="muted small">
+              Net = total won − total bet. (All virtual)
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Settings</h2>
+          <p class="muted">Settings are stored in localStorage. Not a separate module.</p>
+
+          <div class="setting">
+            <div>
+              <div class="setting-title">Theme</div>
+              <div class="muted small">Switch between light and dark.</div>
+            </div>
+            <select id="themeSelect" class="select">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </div>
+
+          <div class="setting">
+            <div>
+              <div class="setting-title">Sound</div>
+              <div class="muted small">Simple beep on play (if supported).</div>
+            </div>
+            <label class="switch" title="Toggle sound">
+              <input id="soundToggle" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="row">
+            <button id="btnResetStats" class="btn btn-ghost" type="button">Reset Stats</button>
+            <button class="btn btn-ghost" data-goto="home" type="button">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="muted">Demo Casino SPA • Virtual credits only • Frontend-only • GitHub Pages compatible</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
