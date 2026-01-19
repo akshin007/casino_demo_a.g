@@ -412,3 +412,13 @@ h3 { margin: 0 0 8px; font-size: 15px; }
   color: #fff;
   opacity: 0.9;
 }
+/* ===== Win Effect ===== */
+.win-effect {
+  animation: winFlash 0.6s ease-in-out 3;
+}
+
+@keyframes winFlash {
+  0%   { box-shadow: 0 0 0 rgba(255,215,0,0); }
+  50%  { box-shadow: 0 0 40px rgba(255,215,0,0.9); }
+  100% { box-shadow: 0 0 0 rgba(255,215,0,0); }
+}
