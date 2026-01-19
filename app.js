@@ -110,6 +110,9 @@
     renderGames();
     applySettingsToUI();
     syncUI();
+     startJackpotAnimation();
+
+
 
     // Nav routing
     $$(".nav-link").forEach((btn) => {
@@ -200,6 +203,16 @@
     // Default route
     navigate("home");
   });
+function startJackpotAnimation() {
+  const el = document.getElementById("jackpotValue");
+  if (!el) return;
+
+  let value = 250000;
+  setInterval(() => {
+    value += Math.floor(Math.random() * 900);
+    el.textContent = String(value);
+  }, 800);
+}
 
   // ---------- Routing ----------
   function navigate(route) {
