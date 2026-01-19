@@ -319,16 +319,6 @@ function startJackpotAnimation() {
       setResult("No game selected", "Go to Games and pick a demo game first.");
       return;
     }
-// Show result
-setResult(outcome.title, outcome.message);
-
-// WIN FX (после setResult)
-if (outcome.payout > 0) {
-  const isJackpot =
-    outcome.title.toLowerCase().includes("jackpot") || outcome.payout >= bet * 5;
-
-  fx.playWinFireworks(isJackpot ? "jackpot" : "win");
-}
 
     const bet = safeInt(betAmount.value);
     if (bet <= 0) return setResult("Invalid bet", "Enter a bet greater than 0.");
