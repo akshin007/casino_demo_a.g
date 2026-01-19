@@ -350,6 +350,10 @@ function startJackpotAnimation() {
 
     // Sound feedback
     if (state.settings.sound) beep(outcome.payout > 0 ? 900 : 220, 0.08);
+    // Win effect ONLY for Slot Spin
+    if (game.id === "slot" && outcome.payout > 0) {
+      winFireworks();
+    }
 
     // Show result
     setResult(outcome.title, outcome.message);
@@ -423,6 +427,22 @@ function startJackpotAnimation() {
       title: "No match",
       message: `Better luck next time. Bet: ${bet}.`,
     };
+  }
+  // ---------- Win effect: fullscreen fireworks (Slot only) ----------
+  function winFireworks() {
+    if (typeof confetti !== "function") return;
+
+    const end = Date.now() + 1200; // 1.2s
+    (function frame() {
+      confetti({
+        particleCount: 10,
+        startVelocity: 35,
+        spread: 360,
+        ticks: 70,
+        origin: { x: Math.random(), y: 0.7 }
+      });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
   }
 
   // ---------- Selected game ----------
